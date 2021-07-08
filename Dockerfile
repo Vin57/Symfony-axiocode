@@ -2,6 +2,8 @@ FROM php:7.4-fpm
 
 ENV PHP_APCU_VERSION 5.1.20
 ENV PHP_XDEBUG_VERSION 3.0.4
+ENV GIT_USERMAIL vincent.philippe18@gmail.com
+ENV GIT_USERNAME Vin57
 
 RUN apt-get update \
     && apt-get install -y \
@@ -37,3 +39,5 @@ RUN apt-get update \
     && wget https://get.symfony.com/cli/installer -O - | bash && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
     && git config --global user.email $GIT_USERMAIL \
     && git config --global user.email $GIT_USERNAME
+
+WORKDIR /app/
