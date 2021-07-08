@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4-fpm as php-fpm-perso
 
 ENV PHP_APCU_VERSION 5.1.20
 ENV PHP_XDEBUG_VERSION 3.0.4
@@ -41,4 +41,19 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/composer \
     && wget https://get.symfony.com/cli/installer -O - | bash && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
     && git config --global user.email $GIT_USERMAIL \
-    && git config --global user.email $GIT_USERNAME
+    && git config --global user.email $GIT_USERNAME 
+
+# Need to multi-staged further operation as volume is not already around there (so no composer.json !)
+
+FROM php-fpm-perso
+
+# Now there is a composer.json !
+
+WORKDIR /app/
+
+CMD symfony server:start
+#   composer install -q --no-interaction \
+#   && php bin/console doctrine:database:create -q --if-not-exists \
+#   && php bin/console doctrine:migrations:migrate -q --no-interaction --all-or-nothing \
+#   && php bin/console doctrine:fixtures:load -q --no-interaction --group=DEV --allow-no-migration \
+    
