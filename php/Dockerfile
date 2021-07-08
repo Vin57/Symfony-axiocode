@@ -8,6 +8,7 @@ ENV GIT_USERNAME Vin57
 RUN apt-get update \
     && apt-get install -y \
         libicu-dev \
+        g++ \
         zlib1g-dev \
         libonig-dev \
         libzip-dev \
@@ -26,6 +27,7 @@ RUN apt-get update \
     && touch /usr/src/php-available-exts \
     && sed -i '$ a apcu' /usr/src/php-available-exts \
     && sed -i '$ a xdebug' /usr/src/php-available-exts \
+    && docker-php-ext-configure zip \
     && docker-php-ext-install \
         apcu \
         intl \
@@ -33,11 +35,10 @@ RUN apt-get update \
         pdo_mysql \
         xdebug \
         zip \
+    && docker-php-ext-enable apcu \
     && docker-php-source delete \
     && php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer \
     && wget https://get.symfony.com/cli/installer -O - | bash && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
     && git config --global user.email $GIT_USERMAIL \
     && git config --global user.email $GIT_USERNAME
-
-WORKDIR /app/

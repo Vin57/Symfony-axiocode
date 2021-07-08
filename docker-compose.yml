@@ -8,18 +8,22 @@ services:
               target: /var/lib/mysql
         ports: 
             - 3306:3306
-        environment: 
+        environment:
             - MARIADB_ROOT_PASSWORD
     php:
-        build: .
+        build: 
+            context: ./php
+            dockerfile: Dockerfile
         volumes:
             - type: bind
-              source: ./
+              source: ./app
               target: /app
         ports: 
             - 8000:8000
         env_file: 
-            - .env
+            - ./php/.env
+        depends_on: 
+            - db
 volumes: 
     mariadb_sf:
         external: true
