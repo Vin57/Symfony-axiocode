@@ -3,17 +3,31 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
-
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header class="mb-5">
+            <nav class="row fixed-top navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <a class="navbar-brand" href="{% block navbar_path %}{{ path("product_index") }}{% endblock %}">
+                    {% block navbar_brand %}
+                        <img width="50px" src="{{ asset('build/images/axiologo.png') }}" class="img-fluid align-top" alt="Axiologo">
+                    {% endblock %}
+                </a>
+                <ul class="navbar-nav mr-auto">
+                    {% include 'navbar/menu.html.twig' %}
+                </ul>
+                <div class="d-flex order-lg-1 ml-auto pr-2">
+                </div>
+            </nav>
+        </header>
+        <div class="mt-7 container mb-3">
+            {% block body %}
+            {% endblock %}
+        </div>
     </body>
 </html>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}

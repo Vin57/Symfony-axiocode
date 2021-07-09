@@ -1,0 +1,6 @@
+@import "~bootstrap";
+@import "~font-awesome";
+
+.mt-7 {
+    margin-top: 5rem;
+}

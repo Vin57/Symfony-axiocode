@@ -1,0 +1,4 @@
+{% set current_route_name = app.request.get('_route') %}
+<li class="nav-item {% if current_route_name == "product_index" %}active{% endif %} menu-item">
+    <a class="nav-link" href="{{ path('product_index') }}"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;{{ "Products"|trans }}</a>
+</li>

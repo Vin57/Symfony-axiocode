@@ -6,11 +6,20 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="unq_login", fields={"login"}),
+ *     @ORM\UniqueConstraint(name="unq_email", fields={"email"})
+ * })
+ * @UniqueEntity(fields={"login"})
+ * @UniqueEntity(fields={"email"})
  */
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -20,7 +29,7 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=180)
      */
     private $login;
 
@@ -30,19 +39,21 @@ class User
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $password;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Role::class)
      */
-    private $roles;
+    private Collection $roles;
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
 
     public function __construct()
     {
         $this->roles = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -73,24 +84,34 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
+        return (string) $this->login;
     }
 
     /**
-     * @return Collection|Role[]
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
      */
-    public function getRoles(): Collection
+    public function getUsername(): string
     {
-        return $this->roles;
+        return (string) $this->login;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function addRole(Role $role): self
@@ -107,5 +128,38 @@ class User
         $this->roles->removeElement($role);
 
         return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
     }
 }

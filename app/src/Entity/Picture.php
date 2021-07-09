@@ -17,12 +17,12 @@ class Picture extends Document
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="pictures")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $product;
+    private ?Product $product;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $is_main = null;
+    private ?bool $is_main = null;
 
     public function getProduct(): ?Product
     {
