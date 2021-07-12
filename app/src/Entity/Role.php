@@ -7,24 +7,38 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=RoleRepository::class)
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_label", fields={"label"})})
  */
 class Role
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="`code`", type="string")
      */
-    private $id;
+    private $code;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $label;
 
-    public function getId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getCode()
     {
-        return $this->id;
+        return $this->code;
+    }
+
+    /**
+     * @param mixed $code
+     */
+    public function setCode($code): self
+    {
+        $this->code = $code;
+
+        return $this;
     }
 
     public function getLabel(): ?string

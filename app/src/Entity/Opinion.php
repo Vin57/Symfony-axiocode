@@ -4,10 +4,16 @@ namespace App\Entity;
 
 use App\Repository\OpinionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OpinionRepository::class)
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_user_product_rating", fields={"user", "product", "rating"})})
+ * @UniqueEntity(
+ *     fields={"user", "product", "rating"},
+ *     message="dupplicate.user.product.rating"
+ * )
  */
 class Opinion
 {
@@ -20,12 +26,12 @@ class Opinion
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $comment = null;
+    private ?string $comment = null;
 
     /**
      * @ORM\Column(type="integer", length=Opinion::RATING_MAX_LENGTH)
@@ -33,13 +39,13 @@ class Opinion
      * @Assert\LessThanOrEqual(value=Opinion::RATING_MAX_VALUE)
      * @Assert\NotBlank()
      */
-    private $rating = null;
+    private ?int $rating = 1;
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="opinions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $product;
+    private ?Product $product = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)

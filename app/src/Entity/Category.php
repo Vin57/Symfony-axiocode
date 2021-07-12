@@ -9,12 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_name", fields={"name"})})
  */
 class Category
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -26,6 +27,7 @@ class Category
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="childrens")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $parent;
 
@@ -66,6 +68,18 @@ class Category
         $this->parent = $parent;
 
         return $this;
+    }
+
+    /**
+     * @param array|null $parents
+     * @return Category[]
+     */
+    public function getParents(?array $parents = null) : array {
+        if ($parent = $this->getParent()) {
+            $parents[] = $this->getParent();
+            $parents = $parent->getParents($parents);
+        }
+        return $parents;
     }
 
     /**

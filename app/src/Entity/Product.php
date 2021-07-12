@@ -25,18 +25,24 @@ class Product
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="product", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Picture", mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $pictures;
 
     /**
-     * @ORM\OneToMany(targetEntity=Opinion::class, mappedBy="product", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Category")
+     */
+    private Collection $categories;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Opinion", mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $opinions;
 
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
+        $this->categories = new ArrayCollection();
         $this->opinions = new ArrayCollection();
     }
 
@@ -65,6 +71,11 @@ class Product
         return $this->pictures;
     }
 
+    public function getMainPicture() :?Picture
+    {
+        return @array_filter($this->getPictures()->toArray(), fn(Picture $p) => $p->isMain())[0];
+    }
+
     public function addPicture(Picture $picture): self
     {
         if (!$this->pictures->contains($picture)) {
@@ -83,6 +94,30 @@ class Product
                 $picture->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }

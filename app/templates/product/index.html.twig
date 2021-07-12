@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'product/_base.html.twig' %}
 
 {% block title %}Product index{% endblock %}
 
@@ -19,6 +19,10 @@
                 <tr>
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
+                    <td>
+                        {% set image = product.mainPicture ? vich_uploader_asset(product.mainPicture, 'file') : '' %}
+                        <img src="{{ image }}"/>
+                    </td>
                     <td>
                         <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
                         <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
