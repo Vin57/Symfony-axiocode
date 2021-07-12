@@ -4,13 +4,19 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    app.default_locale: 'fr'
+    app.path.product_images: /uploads/products/images
+    app.path.document: /uploads/documents
+    app.admin_password: "%env(ADMIN_PASSWORD)%"
+    app.admin_email: 'vincent.philippe@axiocode.com'
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+            $adminPassword: '%app.admin_password%'
+            $adminEmail: '%app.admin_email%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -20,6 +26,11 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
-
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

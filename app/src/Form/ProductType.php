@@ -2,34 +2,48 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Product;
+use App\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class ProductType extends AbstractType
 {
-    private Security $security;
-
-    public function __construct(Security $security) {
-        $this->security = $security;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', null, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => "Product.name",
+                    'class' => 'form-control'
+                ],
+            ])
             ->add(
                 'pictures',
                 CollectionType::class,
                 [
                     'entry_type' => PictureType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'by_reference' => false
+                    'allow_add' => true/*$this->security->isGranted('ROLE_ADMIN')*/,
+                    'allow_delete' => true/*$this->security->isGranted('ROLE_ADMIN')*/,
+                    'by_reference' => false,
+                    'constraints' => [new Valid()],
+                ]
+            )
+            ->add(
+                'categories',
+                EntityType::class,
+                [
+                    'class' => Category::class,
+                    'multiple' => true,
+                    'expanded' => false,
+                    'query_builder' => fn (CategoryRepository $r) => $r->getAllCategoryQB(),
+                    'choice_label' => fn(Category $c) => $c->getId() . ' - ' . $c->getName()
                 ]
             )
         ;

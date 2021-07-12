@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 jQuery(document).ready(function () {
     // Get the ul that holds the collection
     const $collectionHolder = $('ul.form-collection-type');
@@ -44,7 +46,6 @@ function addFormToCollection($collectionHolderClass)
 jQuery(document).ready(function () {
     // Get the ul that holds the collection of tags
     let $collectionHolder = $('ul.form-collection-type');
-
     // add a delete link to all of the existing tag form li elements
     $collectionHolder.find('li').each(function () {
         addTagFormDeleteLink($(this));

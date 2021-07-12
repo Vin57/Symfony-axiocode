@@ -1,0 +1,13 @@
+{% if is_granted('ROLE_USER') %}
+    {% set opinion, product = opinion is defined ? opinion : null, product is defined ? product : null %}
+    {% if opinion is not null %}
+        {% if is_granted('POST_EDIT', opinion) %}
+            <a href="{{ path('opinion_edit', {'id': opinion.id}) }}">{{ "update.opinion"|trans }}</a>
+        {% endif %}
+        {% if is_granted('POST_DELETE', opinion) %}
+            {% include 'opinion/_delete_form.html.twig' %}
+        {% endif %}
+    {% elseif product is not null %}
+        <a href="{{ path('opinion_new', {'product_id': product.id}) }}">{{ "add.opinion"|trans }}</a>
+    {% endif %}
+{% endif %}

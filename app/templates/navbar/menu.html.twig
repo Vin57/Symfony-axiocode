@@ -1,4 +1,14 @@
 {% set current_route_name = app.request.get('_route') %}
+{% set current_user = app.user() %}
 <li class="nav-item {% if current_route_name == "product_index" %}active{% endif %} menu-item">
-    <a class="nav-link" href="{{ path('product_index') }}"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;{{ "Products"|trans }}</a>
+    <a class="nav-link" href="{{ path('product_index') }}"><i class="" aria-hidden="true"></i>&nbsp;{{ "Products"|trans }}</a>
 </li>
+{% if current_user is not null %}
+    <li class="nav-item {% if current_route_name == "app_logout" %}active{% endif %} menu-item">
+        <a class="nav-link" href="{{ path('app_logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;{{ "Logout"|trans }}</a>
+    </li>
+{% else %}
+    <li class="nav-item {% if current_route_name == "app_login" %}active{% endif %} menu-item">
+        <a class="nav-link" href="{{ path('app_login') }}"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;{{ "Login"|trans }}</a>
+    </li>
+{% endif %}

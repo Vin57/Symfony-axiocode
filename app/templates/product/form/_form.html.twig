@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+    <div class="col-4">
+        {{ form_row(form.name) }}
+    </div>
+    {{ form_errors(form) }}
+    <ul class="pictures form-collection-type" data-prototype="{{ form_widget(form.pictures.vars.prototype)|e('html_attr') }}">
+        {% for picture in form.pictures %}
+            <li class="list-group-item">{{ form_widget(picture) }}</li>
+        {% endfor %}
+    </ul>
+    <button type="button" class="add_item_link" data-collection-holder-class="pictures">{{ "Add.a.picture"|trans }}</button>
+    {{ form_row(form.categories) }}
+    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

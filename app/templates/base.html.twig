@@ -6,6 +6,9 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </head>
     <body>
         <header class="mb-5">
@@ -28,6 +31,3 @@
         </div>
     </body>
 </html>
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-{% endblock %}

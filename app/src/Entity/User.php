@@ -40,6 +40,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToMany(targetEntity=Role::class)
+     * @ORM\JoinTable(name="users_roles",
+     *      joinColumns={@ORM\JoinColumn(name="`user`", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="`code`")}
+     * )
      */
     private Collection $roles;
 
@@ -107,7 +111,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        $roles = array_map(fn($r) => $r->getCode(), $this->roles->toArray());
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
