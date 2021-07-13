@@ -40,7 +40,9 @@
                     </td>
                     <td>
                         <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
-                        <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+                        {% endif %}
                         {% set opinion = current_user is not null ? product.userOpinion(current_user) : null %}
                         {% include 'opinion/component/c_actions.html.twig' %}
                     </td>
@@ -53,6 +55,7 @@
             </tbody>
         </table>
     </div>
-
-    <a href="{{ path('product_new') }}">Create new</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('product_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}

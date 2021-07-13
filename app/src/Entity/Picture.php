@@ -105,7 +105,7 @@ class Picture
         return $this->is_main;
     }
 
-    public function setMain(bool $is_main): self
+    public function setIsMain(bool $is_main): self
     {
         $this->is_main = $is_main;
 
