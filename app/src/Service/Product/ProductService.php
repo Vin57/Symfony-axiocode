@@ -6,25 +6,40 @@ namespace App\Service\Product;
 
 use App\Entity\Product;
 use App\Form\SearchProductData;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query;
 
-interface ProductServiceInterface
+class ProductService implements ProductServiceInterface
 {
-    public function list (SearchProductData $searchProductData): Query;
+    private EntityManagerInterface $entityManager;
+    private ProductRepository $productRepository;
 
-    /**
-     * @param Product $product
-     * @return Product|null
-     * <ul>
-     *  <li>Return the given {@see Product} entity as newly persisted entity.</li>
-     *  <li>Otherwise, if a problem occurs, return null.</li>
-     * </ul>
-     */
-    public function new (Product $product): ?Product;
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        ProductRepository $productRepository
+    )
+    {
+        $this->entityManager = $entityManager;
+        $this->productRepository = $productRepository;
+    }
 
-    /**
-     * @param Product $product
-     * @return bool True on update success, otherwise false.
-     */
-    public function update (Product $product): bool;
+    public function search (SearchProductData $searchProductData): Query
+    {
+        return $this->productRepository->search($searchProductData);
+    }
+
+    public function new (Product $product): ?Product {
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+        return $product;
+    }
+
+    public function update (Product $product): bool {
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+        return true;
+    }
 }

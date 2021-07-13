@@ -13,7 +13,7 @@
     <body>
         <header class="mb-5">
             <nav class="row fixed-top navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <a class="navbar-brand" href="{% block navbar_path %}{{ path("product_index") }}{% endblock %}">
+                <a class="navbar-brand" href="{% block navbar_path %}{{ path("index") }}{% endblock %}">
                     {% block navbar_brand %}
                         <img width="50px" src="{{ asset('build/images/axiologo.png') }}" class="img-fluid align-top" alt="Axiologo">
                     {% endblock %}
@@ -26,6 +26,13 @@
             </nav>
         </header>
         <div class="mt-7 container mb-3">
+            {% for status, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ status }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {% block body %}
             {% endblock %}
         </div>

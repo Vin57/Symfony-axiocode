@@ -71,15 +71,16 @@ class Category
     }
 
     /**
-     * @param array|null $parents
-     * @return Category[]
+     * @return Category[]|null An array of {@see Category} children
+     * for this entity, otherwise, if there is no children, null.
      */
-    public function getParents(?array $parents = null) : array {
-        if ($parent = $this->getParent()) {
-            $parents[] = $this->getParent();
-            $parents = $parent->getParents($parents);
+    public function getAllChildCategories() : ?array {
+        $categories = [];
+        foreach ($this->getChildrens() as $children) {
+            $categories [] = $children;
+            array_merge($categories, $children->getAllChildCategories());
         }
-        return $parents;
+        return $categories;
     }
 
     /**

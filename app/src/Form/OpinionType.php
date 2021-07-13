@@ -30,9 +30,12 @@ class OpinionType extends AbstractType
                 'choice_label' => fn (Product $p) => $p->getName(),
                 'attr' => [
                     'hidden' => true
-                ]
+                ],
+                'label' => false
             ])
-            ->add('user', CurrentUserType::class);
+            ->add('user', CurrentUserType::class, [
+                'label' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

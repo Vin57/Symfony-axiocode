@@ -2,48 +2,53 @@
 
 namespace App\Controller;
 
+use App\Domain\Opinion\Factory\OpinionFactory;
 use App\Entity\Opinion;
-use App\Form\Opinion1Type;
+use App\Entity\Product;
+use App\Form\OpinionType;
 use App\Repository\OpinionRepository;
+use App\Security\NotificationStatus;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/opinion")
+ * @IsGranted("ROLE_USER")
  */
 class OpinionController extends AbstractController
 {
-    /**
-     * @Route("/", name="opinion_index", methods={"GET"})
-     */
-    public function index(OpinionRepository $opinionRepository): Response
-    {
-        return $this->render('opinion/index.html.twig', [
-            'opinions' => $opinionRepository->findAll(),
-        ]);
+    private TranslatorInterface $translator;
+
+    public function __construct(TranslatorInterface $translator) {
+        $this->translator = $translator;
     }
 
     /**
-     * @Route("/new", name="opinion_new", methods={"GET","POST"})
+     * @Route("/new/{product_id}", name="opinion_new", methods={"GET","POST"})
+     * @ParamConverter("product", options={"id"="product_id"})
      */
-    public function new(Request $request): Response
+    public function new(Product $product, Request $request): Response
     {
-        $opinion = new Opinion();
-        $form = $this->createForm(Opinion1Type::class, $opinion);
+        $opinionData = OpinionFactory::build($this->getUser(), $product);
+        $form = $this->createForm(OpinionType::class, $opinionData);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($opinion);
+            $entityManager->persist($opinionData);
             $entityManager->flush();
 
-            return $this->redirectToRoute('opinion_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('product_index');
         }
 
         return $this->renderForm('opinion/new.html.twig', [
-            'opinion' => $opinion,
+            'opinion' => $opinionData,
             'form' => $form,
         ]);
     }
@@ -63,13 +68,17 @@ class OpinionController extends AbstractController
      */
     public function edit(Request $request, Opinion $opinion): Response
     {
-        $form = $this->createForm(Opinion1Type::class, $opinion);
+        if (!$this->isGranted('POST_EDIT', $opinion)) {
+            $this->addFlash(NotificationStatus::DANGER, $this->translator->trans('post.edit.author.defect'));
+            return $this->redirectToRoute('product_index');
+        }
+        $form = $this->createForm(OpinionType::class, $opinion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('opinion_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('product_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('opinion/edit.html.twig', [
@@ -83,12 +92,15 @@ class OpinionController extends AbstractController
      */
     public function delete(Request $request, Opinion $opinion): Response
     {
+        $this->isGranted('POST_DELETE', $opinion);
         if ($this->isCsrfTokenValid('delete'.$opinion->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($opinion);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('opinion_index', [], Response::HTTP_SEE_OTHER);
+        $request->headers->get('referer');
+
+        return new RedirectResponse($request->headers->get('referer'));
     }
 }

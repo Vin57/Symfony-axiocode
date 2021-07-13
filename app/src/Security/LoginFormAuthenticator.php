@@ -2,12 +2,16 @@
 
 namespace App\Security;
 
+use App\Form\LoginData;
+use App\Form\LoginType;
+use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
@@ -37,15 +41,19 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): PassportInterface
     {
-        $login = $request->request->get('login', '');
-
+        $login = $password = $token = '';
+        /** @var LoginData $data */
+        if ($data = $request->request->get('login')) {
+            $login = $data['login'];
+            $password = $data['password'];
+            $token = $data['_csrf_token'];
+        }
         $request->getSession()->set(Security::LAST_USERNAME, $login);
-
         return new Passport(
             new UserBadge($login),
-            new PasswordCredentials($request->request->get('password', '')),
+            new PasswordCredentials($password),
             [
-                new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
+                new CsrfTokenBadge('authenticate', $token),
             ]
         );
     }

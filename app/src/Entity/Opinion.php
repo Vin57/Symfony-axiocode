@@ -9,9 +9,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OpinionRepository::class)
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_user_product_rating", fields={"user", "product", "rating"})})
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_user_product_rating", fields={"user", "product"})})
  * @UniqueEntity(
- *     fields={"user", "product", "rating"},
+ *     fields={"user", "product"},
  *     message="dupplicate.user.product.rating"
  * )
  */

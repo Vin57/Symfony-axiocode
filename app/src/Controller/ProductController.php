@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Form\SearchProductData;
+use App\Form\SearchProductType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Service\Product\ProductServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,18 +20,34 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductController extends AbstractController
 {
+    private ProductServiceInterface $productService;
+
+    public function __construct(ProductServiceInterface $_productService)
+    {
+        $this->productService = $_productService;
+    }
+
     /**
      * @Route("/", name="product_index", methods={"GET"})
      */
-    public function index(ProductRepository $productRepository): Response
+    public function index(Request $request): Response
     {
-        return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
-        ]);
+        $data = new SearchProductData();
+        $formSearch = $this->createForm(SearchProductType::class, $data);
+        $formSearch->handleRequest($request);
+
+        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
+            $data = $formSearch->getData();
+        }
+
+        $products = $this->productService->search($data)->getResult();
+        $form_search = $formSearch->createView();
+        return $this->render('product/index.html.twig', compact('products', 'form_search'));
     }
 
     /**
      * @Route("/new", name="product_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {

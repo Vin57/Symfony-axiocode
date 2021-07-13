@@ -1,16 +1,23 @@
 {% extends 'product/_base.html.twig' %}
-
+{% set current_user = app.user() %}
 {% block title %}Product index{% endblock %}
 
 {% block body %}
     <h1>Product index</h1>
-
+    {{ form_start(form_search) }}
+        {{ form_row(form_search.name) }}
+        {{ form_row(form_search.category) }}
+        {{ form_row(form_search.submit) }}
+    {{ form_end(form_search) }}
     <div class="table table-responsive">
         <table class="table">
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
+                    <th>Image</th>
+                    <th>Rating</th>
+                    <th>Categories</th>
                     <th>actions</th>
                 </tr>
             </thead>
@@ -24,8 +31,18 @@
                         <img src="{{ image }}"/>
                     </td>
                     <td>
+                        {% set rating = product.averageOpinionRating() %}
+                        {% include 'opinion/component/c_rating.html.twig' %}
+                    </td>
+                    <td>
+                        {% set categories = product.categories %}
+                        {% include 'product/component/c_categories.html.twig' %}
+                    </td>
+                    <td>
                         <a href="{{ path('product_show', {'id': product.id}) }}">show</a>
                         <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
+                        {% set opinion = current_user is not null ? product.userOpinion(current_user) : null %}
+                        {% include 'opinion/component/c_actions.html.twig' %}
                     </td>
                 </tr>
             {% else %}

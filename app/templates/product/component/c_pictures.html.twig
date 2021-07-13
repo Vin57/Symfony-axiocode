@@ -1,0 +1,6 @@
+{% set fieldName = fieldName is defined ? fieldName : 'file' %}
+{% for picture in pictures %}
+    <div>
+        <img src="{{ vich_uploader_asset(picture, fieldName?:'file') }}"/>
+    </div>
+{% endfor %}

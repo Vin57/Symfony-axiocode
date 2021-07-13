@@ -1,0 +1,22 @@
+<ul class="list-group">
+    {% set average_opinion = product.averageOpinionRating() %}
+    {% if average_opinion is not null %}
+        {% set rating = average_opinion %}
+        {{ "average.opinion"|trans }} : {% include 'opinion/component/c_rating.html.twig' %}
+    {% endif %}
+    {% for opinion in opinions %}
+        <li class="list-group-item">
+            <i class="fa fa-user-circle"></i>&nbsp;{{ opinion.user.login }}&nbsp;:&nbsp;
+            {% set rating = opinion.rating %}
+            {{ opinion.comment }} - {% include 'opinion/component/c_rating.html.twig' %}
+            {% include 'opinion/component/c_actions.html.twig' %}
+        </li>
+    {% else %}
+        <li class="list-group-item">
+            {{ "no.opinions.for.this.product"|trans }}</br>
+        </li>
+    {% endfor %}
+    {% if is_granted('ROLE_USER') and not product.userOpinion(app.user) %}
+        <a href="{{ path('opinion_new', {'product_id':product_id}) }}">{{ "add.opinion"|trans }}</a>
+    {% endif %}
+</ul>

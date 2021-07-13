@@ -73,7 +73,38 @@ class Product
 
     public function getMainPicture() :?Picture
     {
-        return @array_filter($this->getPictures()->toArray(), fn(Picture $p) => $p->isMain())[0];
+        return $this->getPictures()->filter(function($p) {
+            return $p->getIsMain();
+        })->first() ?: null;
+    }
+
+    /**
+     * @return int|null The average opinion rating, otherwise
+     * null if there is no opinion.
+     */
+    public function getAverageOpinionRating() : ?int
+    {
+        if (!$count = intval($this->getOpinions()->count())) {
+            return null;
+        }
+        $total = intval(array_reduce($this->getOpinions()->toArray(), function($carry, Opinion $o) {
+             return $carry += $o->getRating();
+        }));
+        return ($total / $count)?: null;
+    }
+
+    /**
+     * Get opinion for given {@see $user} on current {@see Product} entity.
+     * @param User $user
+     * @return Opinion|null Opinion for given {@see $user}, otherwise null.
+     */
+    public function getUserOpinion(User $user): ?Opinion {
+        foreach ($this->getOpinions() as $opinion) {
+            if ($opinion->getUser()->getId() === $user->getId()) {
+                return $opinion;
+            }
+        }
+        return null;
     }
 
     public function addPicture(Picture $picture): self

@@ -8,3 +8,12 @@ Create: "Créer"
 Show: "Voir"
 Edit: "Éditer"
 main.product.picture: "Principale vignette produit"
+post.edit.author.defect: "Impossible d'éditer un post dont vous n'êtes pas l'auteur"
+add.opinion: 'Ajouter avis'
+update.opinion: 'Modifier avis'
+delete.opinion: 'Supprimer avis'
+signin: "S'enregistrer"
+Your.opinion.about.{product}: "Votre opinion à propos de : {product}"
+no.opinions.for.this.product: "Aucun avis pour ce produit"
+signin.success.you.can.now.login: "La création du compte à réussie, vous pouvez maintenant vous connecter"
+average.opinion: 'Note moyenne'

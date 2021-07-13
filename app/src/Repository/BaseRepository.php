@@ -22,9 +22,6 @@ abstract class BaseRepository extends ServiceEntityRepository
         $this->resetAndGetQb();
     }
 
-    /**
-     * @return QueryBuilder|null
-     */
     protected function getQb(): ?QueryBuilder
     {
         return $this->qb;
@@ -35,26 +32,10 @@ abstract class BaseRepository extends ServiceEntityRepository
         $this->qb = $qb;
     }
 
-    public function getAlias(): ?string
-    {
-        return $this->alias;
-    }
-
-    public function setAlias(?string $alias): void
-    {
-        $this->alias = $alias;
-    }
-
-    public function getIndexedBy(): ?string
-    {
-        return $this->indexedBy;
-    }
-
-    public function setIndexedBy(?string $indexedBy): void
-    {
-        $this->indexedBy = $indexedBy;
-    }
-
+    /**
+     * Reset and get query builder for this entity repository.
+     * @return QueryBuilder
+     */
     protected function resetAndGetQb() : QueryBuilder {
         $this->setQb($this->createQueryBuilder($this->alias, $this->indexedBy));
         return $this->getQb();

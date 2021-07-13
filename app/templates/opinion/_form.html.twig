@@ -1,4 +1,10 @@
 {{ form_start(form) }}
+    {% set product = form.product.vars.data %}
+    {{ "Your.opinion.about.{product}"|trans(
+        {
+            '{product}':('<a href="' ~ path('product_show', {'id':product.id}) ~ '">' ~ product.name ~ '</a>')
+        }
+    )|raw() }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

@@ -50,11 +50,14 @@ FROM php-fpm-perso
 
 # Now there is a composer.json !
 
-WORKDIR /app/
+WORKDIR /var/www
 
-CMD symfony server:start
+#   CMD symfony server:start
 #   composer install -q --no-interaction \
 #   && php bin/console doctrine:database:create -q --if-not-exists \
 #   && php bin/console doctrine:migrations:migrate -q --no-interaction --all-or-nothing \
 #   && php bin/console doctrine:fixtures:load -q --no-interaction --group=DEV --allow-no-migration \
-    
+
+CMD php-fpm
+
+EXPOSE 8000
