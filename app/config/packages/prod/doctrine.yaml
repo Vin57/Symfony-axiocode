@@ -1,8 +1,9 @@
 doctrine:
-    connections:
-        default:
-            user: '%env(DATABASE_USER)%'
-            password: '%env(DATABASE_PASSWORD)%'
+    dbal:
+        connections:
+            default:
+                user: 'root'
+                password: '%env(DATABASE_PASSWORD)%'
     orm:
         auto_generate_proxy_classes: false
         metadata_cache_driver:

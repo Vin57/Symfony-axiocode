@@ -1,5 +1,5 @@
-{% for category in categories %}
+{% if category %}
     <span class="badge badge-info">
         {{ category.name }}
     </span>
-{% endfor %}
+{% endif %}

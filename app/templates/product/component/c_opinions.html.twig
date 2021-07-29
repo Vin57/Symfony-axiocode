@@ -8,7 +8,7 @@
         <li class="list-group-item">
             <i class="fa fa-user-circle"></i>&nbsp;{{ opinion.user.login }}&nbsp;:&nbsp;
             {% set rating = opinion.rating %}
-            {{ opinion.comment }} - {% include 'opinion/component/c_rating.html.twig' %}
+            {{ opinion.comment|nl2br }} - {% include 'opinion/component/c_rating.html.twig' %}
             {% include 'opinion/component/c_actions.html.twig' %}
         </li>
     {% else %}

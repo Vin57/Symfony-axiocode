@@ -65,13 +65,10 @@ class OpinionController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="opinion_edit", methods={"GET","POST"})
+     * @IsGranted("POST_EDIT", subject="opinion")
      */
     public function edit(Request $request, Opinion $opinion): Response
     {
-        if (!$this->isGranted('POST_EDIT', $opinion)) {
-            $this->addFlash(NotificationStatus::DANGER, $this->translator->trans('post.edit.author.defect'));
-            return $this->redirectToRoute('product_index');
-        }
         $form = $this->createForm(OpinionType::class, $opinion);
         $form->handleRequest($request);
 
@@ -89,10 +86,10 @@ class OpinionController extends AbstractController
 
     /**
      * @Route("/{id}", name="opinion_delete", methods={"POST"})
+     * @IsGranted("POST_DELETE", subject="opinion")
      */
     public function delete(Request $request, Opinion $opinion): Response
     {
-        $this->isGranted('POST_DELETE', $opinion);
         if ($this->isCsrfTokenValid('delete'.$opinion->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($opinion);

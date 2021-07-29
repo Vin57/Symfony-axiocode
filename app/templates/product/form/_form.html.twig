@@ -9,6 +9,6 @@
         {% endfor %}
     </ul>
     <button type="button" class="add_item_link" data-collection-holder-class="pictures">{{ "Add.a.picture"|trans }}</button>
-    {{ form_row(form.categories) }}
+    {{ form_row(form.category) }}
     <button class="btn btn-success">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

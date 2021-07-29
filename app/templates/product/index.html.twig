@@ -35,8 +35,8 @@
                         {% include 'opinion/component/c_rating.html.twig' %}
                     </td>
                     <td>
-                        {% set categories = product.categories %}
-                        {% include 'product/component/c_categories.html.twig' %}
+                        {% set category = product.category %}
+                        {% include 'product/component/c_category.html.twig' %}
                     </td>
                     <td>
                         <a href="{{ path('product_show', {'id': product.id}) }}">show</a>

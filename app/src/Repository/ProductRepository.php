@@ -33,13 +33,13 @@ class ProductRepository extends BaseRepository
                 $categories = array_merge($categories, $category->getAllChildCategories());
             }
             $qb->innerJoin(
-                $this->alias . '.categories',
+                $this->alias . '.category',
                 'category',
                 Query\Expr\Join::WITH,
-                'category.id IN (:category)')
-                ->setParameter(':category', $categories);
+                'category.id IN (:categories)')
+                ->setParameter(':categories', $categories);
         } else {
-            $qb->leftJoin($this->alias . '.categories', 'category');
+            $qb->leftJoin($this->alias . '.category', 'category');
         }
 
         return $qb->getQuery();

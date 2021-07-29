@@ -39,7 +39,7 @@ class ProductController extends AbstractController
         if ($formSearch->isSubmitted() && $formSearch->isValid()) {
             $data = $formSearch->getData();
         }
-
+        
         $products = $this->productService->search($data)->getResult();
         $form_search = $formSearch->createView();
         return $this->render('product/index.html.twig', compact('products', 'form_search'));

@@ -17,9 +17,7 @@ services:
             context: ./php
             dockerfile: Dockerfile.dev
         volumes:
-            - type: bind
-              source: ./app
-              target: /var/www
+            - ./app : /var/www
         ports: 
             - 9000:9000
             - 8000:8000

@@ -36,12 +36,10 @@ class ProductType extends AbstractType
                 ]
             )
             ->add(
-                'categories',
+                'category',
                 EntityType::class,
                 [
                     'class' => Category::class,
-                    'multiple' => true,
-                    'expanded' => false,
                     'query_builder' => fn (CategoryRepository $r) => $r->getAllCategoryQB(),
                     'choice_label' => fn(Category $c) => $c->getId() . ' - ' . $c->getName()
                 ]

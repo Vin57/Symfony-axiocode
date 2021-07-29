@@ -30,19 +30,19 @@ class Product
     private Collection $pictures;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Category")
-     */
-    private Collection $categories;
-
-    /**
      * @ORM\OneToMany(targetEntity="Opinion", mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $opinions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
-        $this->categories = new ArrayCollection();
         $this->opinions = new ArrayCollection();
     }
 
@@ -130,30 +130,6 @@ class Product
     }
 
     /**
-     * @return Collection|Category[]
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Category $category): self
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): self
-    {
-        $this->categories->removeElement($category);
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Opinion[]
      */
     public function getOpinions(): Collection
@@ -179,6 +155,18 @@ class Product
                 $opinion->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
