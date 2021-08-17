@@ -44,19 +44,19 @@ RUN apt-get update \
     && git config --global user.email $GIT_USERMAIL \
     && git config --global user.name $GIT_USERNAME 
 
-# Need to multi-staged further operation as volume is not already around there (so no composer.json !)
+WORKDIR /app
 
-FROM php-fpm-perso
+COPY . .
 
-# Now there is a composer.json !
-
-WORKDIR /var/www
-
-#   CMD symfony server:start
-#   composer install -q --no-interaction \
-#   && php bin/console doctrine:database:create -q --if-not-exists \
-#   && php bin/console doctrine:migrations:migrate -q --no-interaction --all-or-nothing \
-#   && php bin/console doctrine:fixtures:load -q --no-interaction --group=DEV --allow-no-migration \
+RUN chmod 777 /app/var && \ 
+    chmod 777 /app/vendor && \
+    mkdir -m 600 ~/.ssh/ && \
+    cp -r ssh ~/.ssh/ && \
+    ssh-keyscan -t rsa gitlab.axiocode.net >> ~/.ssh/known_hosts && \
+    cat /app/ssh/id_rsa > ~/.ssh/id_rsa && \
+    cat /app/ssh/id_rsa.pub > ~/.ssh/id_rsa.pub && \
+    chmod 600 /root/.ssh/id_rsa && \
+    composer update
 
 CMD php-fpm
 

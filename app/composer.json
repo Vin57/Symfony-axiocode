@@ -45,8 +45,13 @@
         "symfony/yaml": "5.3.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
-        "vich/uploader-bundle": "^1.18"
+        "vich/uploader-bundle": "^1.18",
+        "axiocode/api-bundle": "^5.0.2"
     },
+    "repositories" : [{
+        "type" : "vcs",
+        "url" : "git@gitlab.axiocode.net:axiolab/symfony/api-bundle.git"
+    }],
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^9.5",
@@ -64,7 +69,8 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "platform-check": false
     },
     "autoload": {
         "psr-4": {
