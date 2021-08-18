@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\Opinion\Repository;
 
 use App\Domain\Opinion\Entity\Opinion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

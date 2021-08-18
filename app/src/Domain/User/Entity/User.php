@@ -2,7 +2,6 @@
 
 namespace App\Domain\User\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Entity(repositoryClass="App\Domain\User\Repository\UserRepository")
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="unq_login", fields={"login"}),
  *     @ORM\UniqueConstraint(name="unq_email", fields={"email"})

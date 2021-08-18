@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repository;
+namespace App\Domain\Application\Repository;
 
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

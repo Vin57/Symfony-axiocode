@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Http\Controller;
 
 use App\Domain\Product\Entity\Product;
 use App\Domain\Product\Form\ProductType;

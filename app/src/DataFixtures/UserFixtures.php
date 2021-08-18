@@ -2,9 +2,9 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Role;
-use App\Entity\User;
-use App\Repository\RoleRepository;
+use App\Domain\User\Entity\Role;
+use App\Domain\User\Entity\User;
+use App\Domain\User\Repository\RoleRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;

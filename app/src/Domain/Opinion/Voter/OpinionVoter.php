@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Security\Voter;
+namespace App\Domain\Opinion\Voter;
 
 use App\Domain\Opinion\Entity\Opinion;
 use App\Domain\User\Entity\User;

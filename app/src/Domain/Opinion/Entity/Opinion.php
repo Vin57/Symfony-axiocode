@@ -4,14 +4,13 @@ namespace App\Domain\Opinion\Entity;
 
 use App\Domain\Product\Entity\Product;
 use App\Domain\User\Entity\User;
-use App\Repository\OpinionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Axiocode\ApiBundle\Annotation\ExposeResource;
 
 /**
- * @ORM\Entity(repositoryClass=OpinionRepository::class)
+ * @ORM\Entity(repositoryClass="App\Domain\Opinion\Repository\OpinionRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_user_product_rating", fields={"user", "product"})})
  * @UniqueEntity(
  *     fields={"user", "product"},

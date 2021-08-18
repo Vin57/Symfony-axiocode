@@ -2,8 +2,8 @@
 
 namespace App\Domain\Product\Form;
 
-use App\Entity\Category;
-use App\Repository\CategoryRepository;
+use App\Domain\Category\Entity\Category;
+use App\Domain\Category\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;

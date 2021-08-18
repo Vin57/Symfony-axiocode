@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Domain\Opinion\Form;
 
 use App\Domain\Opinion\Entity\Opinion;
 use App\Domain\Product\Entity\Product;

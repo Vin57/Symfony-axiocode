@@ -2,11 +2,10 @@
 
 namespace App\Domain\User\Entity;
 
-use App\Repository\RoleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=RoleRepository::class)
+ * @ORM\Entity(repositoryClass="App\Domain\User\Repository\RoleRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_label", fields={"label"})})
  */
 class Role

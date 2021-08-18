@@ -2,6 +2,9 @@
 
 namespace App\Domain\Product\Entity;
 
+use App\Domain\Category\Entity\Category;
+use App\Domain\Opinion\Entity\Opinion;
+use App\Domain\User\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +14,7 @@ use Axiocode\ApiBundle\Annotation\ExposeRoute;
 /**
  * @ORM\Entity(repositoryClass="App\Domain\Product\Repository\ProductRepository")
  * @ExposeResource(
- *     fetchAll=@ExposeRoute(map={"id", "name", "category"})
+ *     fetchAll=@ExposeRoute(map={"id", "name", "category", "getMainProduct"})
  * )
  */
 class Product
@@ -39,7 +42,7 @@ class Product
     private Collection $opinions;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Category\Entity\Category", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;

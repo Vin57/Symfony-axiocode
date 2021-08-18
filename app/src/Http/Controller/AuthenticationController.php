@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Http\Controller;
 
 use App\Domain\Security\NotificationStatus;
 use App\Domain\User\Entity\User;

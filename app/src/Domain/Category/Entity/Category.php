@@ -10,7 +10,7 @@ use Axiocode\ApiBundle\Annotation\ExposeResource;
 use Axiocode\ApiBundle\Annotation\ExposeRoute;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Category\Repository\CategoryRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_name", fields={"name"})})
  * @ExposeResource(
  *  fetchAll=@ExposeRoute(map={"id", "name"}),

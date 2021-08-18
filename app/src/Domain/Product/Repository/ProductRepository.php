@@ -2,6 +2,7 @@
 
 namespace App\Domain\Product\Repository;
 
+use App\Domain\Application\Repository\BaseRepository;
 use App\Domain\Product\Entity\Product;
 use App\Domain\Product\Form\SearchProductData;
 use Doctrine\ORM\Query;

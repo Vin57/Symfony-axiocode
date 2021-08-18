@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Http\Controller;
 
 use App\Domain\Opinion\Entity\Opinion;
 use App\Domain\Opinion\Factory\OpinionFactory;
+use App\Domain\Opinion\Form\OpinionType;
 use App\Domain\Product\Entity\Product;
-use App\Form\OpinionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/opinion")
@@ -21,10 +20,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class OpinionController extends AbstractController
 {
-    public function __construct(TranslatorInterface $translator) {
-        $this->translator = $translator;
-    }
-
     /**
      * @Route("/new/{product_id}", name="opinion_new", methods={"GET","POST"})
      * @ParamConverter("product", options={"id"="product_id"})
