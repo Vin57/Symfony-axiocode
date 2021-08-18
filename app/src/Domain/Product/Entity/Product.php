@@ -14,7 +14,7 @@ use Axiocode\ApiBundle\Annotation\ExposeRoute;
 /**
  * @ORM\Entity(repositoryClass="App\Domain\Product\Repository\ProductRepository")
  * @ExposeResource(
- *     fetchAll=@ExposeRoute(map={"id", "name", "category", "getMainProduct"})
+ *     fetchAll=@ExposeRoute(map={"id", "name", "category"})
  * )
  */
 class Product
@@ -37,7 +37,7 @@ class Product
     private Collection $pictures;
 
     /**
-     * @ORM\OneToMany(targetEntity="Opinion", mappedBy="product", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Domain\Opinion\Entity\Opinion", mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $opinions;
 

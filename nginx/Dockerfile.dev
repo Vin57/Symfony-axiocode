@@ -2,7 +2,7 @@ FROM nginx:alpine
 
 RUN touch /var/log/nginx/error.log
 
-WORKDIR /var/www
+WORKDIR /app/
 
 CMD ["nginx"]
 EXPOSE 80
