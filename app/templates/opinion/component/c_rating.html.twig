@@ -1,5 +1,5 @@
 {% if rating %}
-    {{ rating }} / {{ constant('App\\Entity\\Opinion::RATING_MAX_VALUE') }}
+    {{ rating }} / {{ constant('App\\Domain\\Opinion\\Entity::RATING_MAX_VALUE') }}
 {% else %}
     -
 {% endif %}

@@ -15,7 +15,9 @@ services:
             context: ./app
             dockerfile: Dockerfile.dev
         volumes:
-            - ./app:/var/www
+            - type: bind
+              source: ./app
+              target: /var/www
         ports: 
             - 9000:9000
             - 8000:8000
@@ -28,13 +30,12 @@ services:
         ports:
             - 80:80
         volumes:
-        - ./app:/var/www
-        - volume_var:/var/www/var
-        - volume_vendor:/var/www/vendor
-        - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-        - ./nginx/sites/:/etc/nginx/sites-available
-        - ./nginx/conf.d/:/etc/nginx/conf.d
-        - ./nginx/logs:/var/log/nginx
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/sites/:/etc/nginx/sites-available
+            - ./nginx/conf.d/:/etc/nginx/conf.d
+            - ./nginx/logs:/var/log/nginx
+        volumes_from: 
+            - app
         depends_on:
             - app
             - db

@@ -28,3 +28,6 @@ yarn-error.log
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 id_rsa
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

@@ -3,3 +3,5 @@ index:
     controller: App\Controller\ProductController::index
 api:
   resource: '@ApiBundle/Resources/config/routing.yaml'
+api_login_check:
+  path: /api/login_check
