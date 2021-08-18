@@ -3,8 +3,8 @@
 namespace App\Domain\Product\Repository;
 
 use App\Domain\Application\Repository\BaseRepository;
-use App\Domain\Product\Entity\Product;
 use App\Domain\Product\Form\SearchProductData;
+use App\Entity\Product;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,10 +17,10 @@ class ProductRepository extends BaseRepository
 
     public function search(SearchProductData $searchProductData): Query
     {
-        $qb = $this->resetAndGetQb();
-
-        $qb->leftJoin($this->alias . '.opinions', 'opinion');
-        $qb->leftJoin($this->alias . '.pictures', 'picture');
+        $qb = $this->resetAndGetQb()
+            ->addSelect('opinion', 'picture')
+            ->leftJoin($this->alias . '.opinions', 'opinion')
+            ->leftJoin($this->alias . '.pictures', 'picture');
 
         if ($name = $searchProductData->getName()) {
             $qb->andWhere($this->alias. '.name LIKE :name')
@@ -41,7 +41,6 @@ class ProductRepository extends BaseRepository
         } else {
             $qb->leftJoin($this->alias . '.category', 'category');
         }
-
         return $qb->getQuery();
     }
 }

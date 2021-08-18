@@ -2,8 +2,9 @@
 
 namespace App\Domain\Opinion\Form;
 
-use App\Domain\Opinion\Entity\Opinion;
-use App\Domain\Product\Entity\Product;
+use App\Domain\User\Form\CurrentUserType;
+use App\Entity\Opinion;
+use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;

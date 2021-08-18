@@ -1,10 +1,7 @@
 <?php
 
-namespace App\Domain\Product\Entity;
+namespace App\Entity;
 
-use App\Domain\Category\Entity\Category;
-use App\Domain\Opinion\Entity\Opinion;
-use App\Domain\User\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,17 +29,17 @@ class Product
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Picture", mappedBy="product", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $pictures;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Domain\Opinion\Entity\Opinion", mappedBy="product", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Opinion::class, mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private Collection $opinions;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Category\Entity\Category", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;

@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Domain\Opinion\Entity;
+namespace App\Entity;
 
-use App\Domain\Product\Entity\Product;
-use App\Domain\User\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -51,7 +49,7 @@ class Opinion
     private ?Product $product = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\User\Entity\User")
+     * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

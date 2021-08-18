@@ -2,7 +2,7 @@
 
 namespace App\Domain\User\Form;
 
-use App\Domain\User\Entity\User;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

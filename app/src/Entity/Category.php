@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Domain\Category\Entity;
+namespace App\Entity;
 
-use App\Domain\Product\Entity\Product;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,7 +45,7 @@ class Category
     private $childrens;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Domain\Product\Entity\Product", mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category")
      */
     private $products;
 

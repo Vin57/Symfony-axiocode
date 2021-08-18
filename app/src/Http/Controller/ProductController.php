@@ -2,11 +2,11 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Product\Entity\Product;
 use App\Domain\Product\Form\ProductType;
 use App\Domain\Product\Form\SearchProductData;
 use App\Domain\Product\Form\SearchProductType;
 use App\Domain\Product\Service\ProductServiceInterface;
+use App\Entity\Product;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -2,8 +2,7 @@
 
 namespace App\Domain\Opinion\Voter;
 
-use App\Domain\Opinion\Entity\Opinion;
-use App\Domain\User\Entity\User;
+use App\Entity\Opinion;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;

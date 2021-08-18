@@ -2,10 +2,10 @@
 
 namespace App\Http\Controller;
 
-use App\Domain\Opinion\Entity\Opinion;
 use App\Domain\Opinion\Factory\OpinionFactory;
 use App\Domain\Opinion\Form\OpinionType;
-use App\Domain\Product\Entity\Product;
+use App\Entity\Opinion;
+use App\Entity\Product;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

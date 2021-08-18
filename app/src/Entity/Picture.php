@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Product\Entity;
+namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +16,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_mainpicture_product", fields={"product", "is_main"})})
  * @UniqueEntity(
  *     fields={"product", "is_main"},
- *     entityClass="App\Entity\Picture",
  *     message="dupplicate.main.picture",
  *     ignoreNull=true
  * )

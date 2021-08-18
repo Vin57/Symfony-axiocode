@@ -3,9 +3,9 @@
 namespace App\Http\Controller;
 
 use App\Domain\Security\NotificationStatus;
-use App\Domain\User\Entity\User;
 use App\Domain\User\Form\LoginType;
 use App\Domain\User\Form\SigninType;
+use App\Entity\User;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

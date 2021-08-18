@@ -3,9 +3,10 @@
 
 namespace App\Domain\Opinion\Factory;
 
-use App\Domain\Opinion\Entity\Opinion;
-use App\Domain\Product\Entity\Product;
-use App\Domain\User\Entity\User;
+
+use App\Entity\Opinion;
+use App\Entity\Product;
+use App\Entity\User;
 
 class OpinionFactory
 {

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Opinion\Repository;
 
-use App\Domain\Opinion\Entity\Opinion;
+use App\Entity\Opinion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

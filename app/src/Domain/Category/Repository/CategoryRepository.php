@@ -3,7 +3,7 @@
 namespace App\Domain\Category\Repository;
 
 use App\Domain\Application\Repository\BaseRepository;
-use App\Domain\Category\Entity\Category;
+use App\Entity\Category;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 

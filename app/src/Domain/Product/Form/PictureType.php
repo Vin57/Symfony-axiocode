@@ -2,7 +2,7 @@
 
 namespace App\Domain\Product\Form;
 
-use App\Domain\Product\Entity\Picture;
+use App\Entity\Picture;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

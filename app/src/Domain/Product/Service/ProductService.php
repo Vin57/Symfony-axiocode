@@ -4,9 +4,9 @@
 namespace App\Domain\Product\Service;
 
 
-use App\Domain\Product\Entity\Product;
 use App\Domain\Product\Form\SearchProductData;
 use App\Domain\Product\Repository\ProductRepository;
+use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 
