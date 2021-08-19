@@ -11,7 +11,8 @@ use Axiocode\ApiBundle\Annotation\ExposeRoute;
 /**
  * @ORM\Entity(repositoryClass="App\Domain\Product\Repository\ProductRepository")
  * @ExposeResource(
- *     fetchAll=@ExposeRoute(map={"id", "name", "category"})
+ *     fetchAll=@ExposeRoute(name="api_products", map={"id", "name", "category"}),
+ *     fetchOne=@ExposeRoute(name="api_product", map={"id", "name", "category", "pictures"})
  * )
  */
 class Product

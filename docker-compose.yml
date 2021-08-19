@@ -1,28 +1,29 @@
 version: "3.8"
-services: 
+services:
     db:
         image: mariadb
-        volumes: 
+        volumes:
             - type: volume
               source: mariadb_sf
               target: /var/lib/mysql
-        ports: 
+        ports:
             - 3306:3306
-        env_file: 
+        env_file:
             - ./app/.env.dev.local
     app:
-        build: 
+        build:
             context: ./app
             dockerfile: Dockerfile.dev
         volumes:
             - type: bind
               source: ./app
               target: /app
-            - volume_vendor:/app/vendor
+            - volume_var:/app/var/
+            - volume_vendor:/app/vendor/
         ports:
             - 9000:9000
             - 8000:8000
-        depends_on: 
+        depends_on:
             - db
     nginx:
         build:
@@ -35,13 +36,15 @@ services:
             - ./nginx/sites/:/etc/nginx/sites-available
             - ./nginx/conf.d/:/etc/nginx/conf.d
             - ./nginx/logs:/var/log/nginx
-        volumes_from: 
+        volumes_from:
             - app
         depends_on:
             - app
             - db
-volumes: 
+volumes:
     mariadb_sf:
         external: true
-    volume_var:
     volume_vendor:
+        driver: local
+    volume_var:
+        driver: local

@@ -53,9 +53,9 @@ class AuthenticationController extends AbstractController
 
     /**
      * @param Request $request
-     * @Route("/signin", name="signin")
+     * @Route("/signup", name="signin")
      */
-    public function signin(Request $request) {
+    public function signup(Request $request) {
 
         $form = $this->createForm(SigninType::class);
         $form->handleRequest($request);

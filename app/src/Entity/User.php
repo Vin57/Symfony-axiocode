@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Axiocode\ApiBundle\Annotation\ExposeResource;
+use Axiocode\ApiBundle\Annotation\ExposeRoute;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,6 +20,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * })
  * @UniqueEntity(fields={"login"})
  * @UniqueEntity(fields={"email"})
+ * @ExposeResource(
+ *     createOne=@ExposeRoute(name="api_user_create", input="login,email,password")
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -53,8 +58,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\Length(min=8, max=255)
+     * @Assert\NotBlank()
      */
-    private $password;
+    private $password = null;
 
     public function __construct()
     {

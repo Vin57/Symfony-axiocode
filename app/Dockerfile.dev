@@ -48,9 +48,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN chmod 777 /app/var && \ 
-    chmod 777 /app/vendor && \
-    mkdir -m 600 ~/.ssh/ && \
+RUN mkdir -m 600 ~/.ssh/ && \
     cp -r ssh ~/.ssh/ && \
     ssh-keyscan -t rsa gitlab.axiocode.net >> ~/.ssh/known_hosts && \
     cat /app/ssh/id_rsa > ~/.ssh/id_rsa && \

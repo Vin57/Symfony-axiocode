@@ -17,10 +17,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         login:
-            pattern: ^/api/login
+            pattern: ^/api/signin
             stateless: true
             json_login:
-                check_path: /api/login_check
+                check_path: /api/signin
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
@@ -41,11 +41,9 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/login,                   roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/signup,                  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/signin,                  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/user,    methods: [POST],roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/product, methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/opinion, methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api,                         roles: IS_AUTHENTICATED_FULLY }

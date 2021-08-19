@@ -5,19 +5,10 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Axiocode\ApiBundle\Annotation\ExposeResource;
-use Axiocode\ApiBundle\Annotation\ExposeRoute;
 
 /**
  * @ORM\Entity(repositoryClass="App\Domain\Category\Repository\CategoryRepository")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_name", fields={"name"})})
- * @ExposeResource(
- *  fetchAll=@ExposeRoute(map={"id", "name"}),
- *  fetchOne=@ExposeRoute(),
- *  updateOne=@ExposeRoute(),
- *  createOne=@ExposeRoute(),
- *  deleteOne=@ExposeRoute()
- * )
  */
 class Category
 {
