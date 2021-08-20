@@ -4,5 +4,8 @@ RUN touch /var/log/nginx/error.log
 
 WORKDIR /app/
 
+RUN mkdir public && \
+    chmod -R 755 public
+
 CMD ["nginx"]
 EXPOSE 80

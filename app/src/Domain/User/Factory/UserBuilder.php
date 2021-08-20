@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Domain\User\Factory;
 
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

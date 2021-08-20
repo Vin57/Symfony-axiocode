@@ -9,6 +9,7 @@ services:
         ports:
             - 3306:3306
         env_file:
+            # .env.dev.local has to be generate by running secrets:decrypt-to-local. Only host know the secrets.
             - ./app/.env.dev.local
     app:
         build:

@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     app.default_locale: 'fr'
-    app.path.product_images: /uploads/products/images
+    app.path.product_images: /uploads/products
     app.path.document: /uploads/documents
     app.admin_password: "%env(ADMIN_PASSWORD)%"
     app.admin_email: 'vincent.philippe@axiocode.com'
