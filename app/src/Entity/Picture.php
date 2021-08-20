@@ -13,7 +13,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Domain\Product\Repository\PictureRepository")
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="unq_mainpicture_product", fields={"product", "is_main"})})
+ * @ORM\Table()
  * @UniqueEntity(
  *     fields={"product", "is_main"},
  *     message="dupplicate.main.picture",
@@ -26,9 +26,8 @@ class Picture
     use TimestampableEntity;
 
     /**
-     * @var int|null
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private ?int $id;

@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Domain\User\Repository\RoleRepository;
+use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;

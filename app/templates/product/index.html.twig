@@ -27,7 +27,7 @@
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td>
-                        {% set image = product.mainPicture ? vich_uploader_asset(product.mainPicture, 'file') : '' %}
+                        {% set image = product.picture ? vich_uploader_asset(product.picture, 'file') : '' %}
                         <img src="{{ image }}"/>
                     </td>
                     <td>
@@ -43,7 +43,7 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('product_edit', {'id': product.id}) }}">edit</a>
                         {% endif %}
-                        {% set opinion = current_user is not null ? product.userOpinion(current_user) : null %}
+                        {% set opinion = current_user is not null ? product.opinion(current_user) : null %}
                         {% include 'opinion/component/c_actions.html.twig' %}
                     </td>
                 </tr>

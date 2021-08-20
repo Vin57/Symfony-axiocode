@@ -3,4 +3,6 @@
 .idea/
 var/
 vendor/
-public/
+public/build
+app/public/uploads/products/*
+!.gitkeep

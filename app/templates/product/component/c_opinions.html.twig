@@ -16,7 +16,7 @@
             {{ "no.opinions.for.this.product"|trans }}</br>
         </li>
     {% endfor %}
-    {% if is_granted('ROLE_USER') and not product.userOpinion(app.user) %}
+    {% if is_granted('ROLE_USER') and not product.opinion(app.user) %}
         <a href="{{ path('opinion_new', {'product_id':product_id}) }}">{{ "add.opinion"|trans }}</a>
     {% endif %}
 </ul>

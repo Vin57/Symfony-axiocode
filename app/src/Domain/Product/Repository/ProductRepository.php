@@ -43,4 +43,23 @@ class ProductRepository extends BaseRepository
         }
         return $qb->getQuery();
     }
+
+    /**
+     * Load one product by given {@see $search} criteria.
+     * Also, join every related collections like pictures and opinions.
+     * @param array $search
+     * <ul>
+     *  <li>id: product identifier to match.</li>
+     * </ul>
+     * @return Product|null
+     */
+    public function loadOneProductById(array $search): ?Product {
+        $qb = $this->resetAndGetQb()
+            ->addSelect('opinion', 'picture')
+            ->leftJoin($this->alias . '.opinions', 'opinion')
+            ->leftJoin($this->alias . '.pictures', 'picture')
+            ->where($this->alias . '.id = :id')
+            ->setParameter(':id', $search['id']);
+        return @$qb->getQuery()->getResult()[0];
+    }
 }

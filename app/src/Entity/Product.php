@@ -12,7 +12,10 @@ use Axiocode\ApiBundle\Annotation\ExposeRoute;
  * @ORM\Entity(repositoryClass="App\Domain\Product\Repository\ProductRepository")
  * @ExposeResource(
  *     fetchAll=@ExposeRoute(name="api_products", map={"id", "name", "category"}),
- *     fetchOne=@ExposeRoute(name="api_product", map={"id", "name", "category", "pictures"})
+ *
+ *     fetchOne=@ExposeRoute(
+ *           name="api_product"
+ *     )
  * )
  */
 class Product
@@ -76,7 +79,7 @@ class Product
         return $this->pictures;
     }
 
-    public function getMainPicture() :?Picture
+    public function getPicture() :?Picture
     {
         return $this->getPictures()->filter(function($p) {
             return $p->getIsMain();
@@ -103,7 +106,7 @@ class Product
      * @param User $user
      * @return Opinion|null Opinion for given {@see $user}, otherwise null.
      */
-    public function getUserOpinion(User $user): ?Opinion {
+    public function getOpinion(User $user): ?Opinion {
         foreach ($this->getOpinions() as $opinion) {
             if ($opinion->getUser()->getId() === $user->getId()) {
                 return $opinion;
