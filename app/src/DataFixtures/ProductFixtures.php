@@ -2,11 +2,13 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Picture;
 use App\Entity\Product;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory as FakerF;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -18,8 +20,10 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < self::DESIRED_NUMBER_OF_PRODUCTS; $i++) {
             $product = new Product();
+            $fakeFile = new File($faker->image());
             $product->setName(implode(" ", $faker->unique->words(2)))
-                ->setCategory($this->getReference("category_" . $faker->numberBetween(0, CategoryFixtures::DESIRED_NUMBER_OF_CATEGORY - 1)));
+                ->setCategory($this->getReference("category_" . $faker->numberBetween(0, CategoryFixtures::DESIRED_NUMBER_OF_CATEGORY - 1)))
+                ->addPicture((new Picture())->setFile($fakeFile)->setPath($fakeFile->getPathname()));
             $manager->persist($product);
             if ($i % 30 === 0) {
                 $manager->flush();
