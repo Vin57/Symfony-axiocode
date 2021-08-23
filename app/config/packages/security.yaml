@@ -46,6 +46,7 @@ security:
         - { path: ^/api/user,    methods: [POST],roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/product, methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/opinion, methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/categories, methods: [GET], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api,                         roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/product,                     roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/login,                       roles: IS_AUTHENTICATED_ANONYMOUSLY}

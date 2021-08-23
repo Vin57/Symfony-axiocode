@@ -9,6 +9,9 @@
         {{ form_row(form_search.category) }}
         {{ form_row(form_search.submit) }}
     {{ form_end(form_search) }}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('product_new') }}">Create new</a>
+    {% endif %}
     <div class="table table-responsive">
         <table class="table">
             <thead>
@@ -55,7 +58,4 @@
             </tbody>
         </table>
     </div>
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('product_new') }}">Create new</a>
-    {% endif %}
 {% endblock %}

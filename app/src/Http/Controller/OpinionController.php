@@ -87,8 +87,6 @@ class OpinionController extends AbstractController
             $entityManager->flush();
         }
 
-        $request->headers->get('referer');
-
-        return new RedirectResponse($request->headers->get('referer'));
+        return new RedirectResponse($this->generateUrl('product_index'));
     }
 }

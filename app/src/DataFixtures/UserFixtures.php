@@ -14,6 +14,9 @@ use Faker\Factory as FakerF;
 
 class UserFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
+    const REFERENCE_NAME = 'user_';
+    const DESIRED_NUMBER_OF_USERS = 30;
+
     private string $adminPassword;
     private string $adminEmail;
     private UserPasswordHasherInterface $passwordHasher;
@@ -43,7 +46,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface, Fixture
         array_map(function(Role $role) use ($admin) { $admin->addRole($role); }, $roles);
         $manager->persist($admin);
 
-        for ($i = 0; $i < 30; $i ++) {
+        for ($i = 0; $i < self::DESIRED_NUMBER_OF_USERS; $i ++) {
             $user = new User();
             $user->setLogin($faker->userName)
                 ->setEmail($faker->email)

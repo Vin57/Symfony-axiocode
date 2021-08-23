@@ -7,15 +7,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Axiocode\ApiBundle\Annotation\ExposeResource;
 use Axiocode\ApiBundle\Annotation\ExposeRoute;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Domain\Product\Repository\ProductRepository")
  * @ExposeResource(
  *     fetchAll=@ExposeRoute(name="api_products", map={"id", "name", "category"}),
- *
  *     fetchOne=@ExposeRoute(
- *           name="api_product"
- *     )
+ *           name="api_product",
+ *           map={"id", "name", "category", "pictures", "AverageOpinionRating"},
+ *           source="loadOneProductById"
+ *     ),
+ *     deleteOne=@ExposeRoute(name="api_product_delete", isGranted="ROLE_ADMIN"),
+ *     createOne=@ExposeRoute(name="api_product_create", isGranted="ROLE_ADMIN"),
  * )
  */
 class Product
@@ -29,6 +33,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=1, max=255)
      */
     private $name;
 
@@ -45,8 +50,9 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
-    private $category;
+    private ?Category $category;
 
     public function __construct()
     {
