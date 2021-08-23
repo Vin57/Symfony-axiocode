@@ -20,6 +20,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     ignoreNull=true
  * )
  * @Vich\Uploadable
+ *
  */
 class Picture
 {

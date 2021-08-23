@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PictureFactory
 {
-    public static function buildFromFile(UploadedFile $file, bool $isMain = false): Picture {
-        return (new Picture())->setFile($file)->setName($file->getFilename())->setIsMain($isMain);
+    public static function buildFromFile(UploadedFile $file, string $pictureName, bool $isMain = false): Picture {
+        return (new Picture())->setFile($file)->setName($pictureName)->setIsMain($isMain);
     }
 }

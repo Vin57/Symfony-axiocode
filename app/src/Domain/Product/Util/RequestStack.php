@@ -26,11 +26,12 @@ class RequestStack
     /**
      * Remove and return request matching given {@see $key}.
      * @param string|null $key
-     * @return Request
+     * @return Request|null
      */
-    public function remove(string $key = null): Request {
-        $req = $this->requestStack[$key];
-        unset($this->requestStack[$key]);
+    public function remove(string $key = null): ?Request {
+        if ($req = @$this->requestStack[$key]){
+            unset($this->requestStack[$key]);
+        }
         return $req;
     }
 

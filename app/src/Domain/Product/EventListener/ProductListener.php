@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Domain\Product\EventListener;
 
 use App\Domain\Application\EventListener\BaseSubscriber;
@@ -9,17 +10,21 @@ use App\Domain\Product\Util\RequestStack;
 use App\Entity\Picture;
 use App\Entity\Product;
 use Axiocode\ApiBundle\Controller\CreateOneApiController;
+use Axiocode\ApiBundle\Controller\UpdateOneApiController;
 use Axiocode\ApiBundle\Event\Events;
 use Axiocode\ApiBundle\Event\PostProcessEvent;
-use http\Exception\InvalidArgumentException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\InputBag;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class ProductListener extends BaseSubscriber
 {
+    const KEY_STACK_CREATE = '_create_';
+    const KEY_STACK_UPDATE = '_update_';
+
     /**
      * @var RequestJsonParser
      */
@@ -33,7 +38,12 @@ class ProductListener extends BaseSubscriber
      */
     private RequestStack $requestStack;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher, RequestJsonParser $requestJsonParser, ProductRequestFormDataParser $productRequestFormDataParser, RequestStack $requestStack)
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        RequestJsonParser $requestJsonParser,
+        ProductRequestFormDataParser $productRequestFormDataParser,
+        RequestStack $requestStack
+    )
     {
         parent::__construct($eventDispatcher);
         $this->requestJsonParser = $requestJsonParser;
@@ -45,36 +55,71 @@ class ProductListener extends BaseSubscriber
     {
         return [
             KernelEvents::CONTROLLER => 'onControllerRequest',
-            Product::class . '_' . Events::FETCH_ONE_POST_PROCESS => 'onPostProcess',
-            Product::class . '_' . Events::CREATE_ONE_POST_PROCESS => 'onCreateOnePostProcess',
+            Product::class . '_' . Events::CREATE_ONE_POST_PROCESS => 'createOnePostProcess',
+            Product::class . '_' . Events::UPDATE_ONE_POST_PROCESS => 'updateOnePostProcess',
             Product::class . '_' . Events::CREATE_ONE_PRE_PROCESS => 'onPreProcess'
         ];
     }
 
-    public function onControllerRequest(ControllerEvent $event) {
-        if ($this->eventIsCreateOneProduct($event) && $event->getRequest()->getContentType() != 'json') {
-            $this->requestStack->add($event->getRequest(), $product_name = $event->getRequest()->request->get('name'));
+    public function onControllerRequest(ControllerEvent $event)
+    {
+        // Treat request before Api bundle receive it
+        $product_name = $event->getRequest()->request->get('name');
+        switch (true) {
+            case !empty(array_filter((array)$event->getController(), fn($c) => $c instanceof CreateOneApiController)):
+                $this->requestStack->add($event->getRequest(), $product_name . self::KEY_STACK_CREATE);
+                break;
+            case !empty(array_filter((array)$event->getController(), fn($c) => $c instanceof UpdateOneApiController)):
+                $this->requestStack->add($event->getRequest(), $product_name . self::KEY_STACK_UPDATE);
+                break;
+        }
+        if ($event->getRequest()->getContentType() != 'json') {
+            // Then jsonify the request content, as Api Bundle only treat content as json data
             $this->productRequestFormDataParser->parse($event->getRequest());
             $this->requestJsonParser->parseRequestContentToJson($event);
         }
     }
 
-    public function onCreateOnePostProcess(PostProcessEvent $event, $eventName) {
-        /** @var Product $product */
-        $product = $event->object;
-        if ($this->requestStack->has($event->object->getName())) {
-            $request = $this->requestStack->remove($product->getName());
-            /** @var Picture[] $pictures */
-            $pictures = array_map(fn($file) => PictureFactory::buildFromFile($file), $request->files->all());
-            array_map(fn($picture, $index) => $product->addPicture($picture->setIsMain($index === 0)), $pictures, array_keys($pictures));
+    public function createOnePostProcess(PostProcessEvent $event, $eventName)
+    {
+        /** @var Request|null $request */
+        if ($request = $this->requestStack->remove($event->object->getName() . self::KEY_STACK_CREATE)) {
+            $this->updateProductPostProcess($event, $eventName, $request);
         }
-
         parent::onPostProcess($event, $eventName);
     }
 
-    private function eventIsCreateOneProduct(ControllerEvent $event): bool
+    public function updateOnePostProcess(PostProcessEvent $event, $eventName)
     {
-        return $event->getRequest()->get('_route') === 'api_product_create'
-        && !empty(array_filter((array)$event->getController(), fn($c) => $c instanceof CreateOneApiController));
+        /** @var Request|null $request */
+        if ($request = $this->requestStack->remove($event->object->getName() . self::KEY_STACK_UPDATE)) {
+            $this->updateProductPostProcess($event, $eventName, $request);
+        }
+        parent::onPostProcess($event, $eventName);
+    }
+
+    private function updateProductPostProcess(PostProcessEvent $event, $eventName, ?Request $request)
+    {
+        /** @var Product $product */
+        $product = $event->object;
+        if ($request && $product) {
+            $this->uploadProductPictures($request->files->all(), $product);
+        }
+    }
+
+    /**
+     * @param UploadedFile[] $files
+     * @param Product $product
+     */
+    private function uploadProductPictures(array $files, Product $product)
+    {
+        /** @var Picture[] $pictures */
+        array_map(
+            function ($file, $name) use ($product) {
+                $product->addPicture(PictureFactory::buildFromFile($file, $name, !$product->getPicture()));
+            },
+            $files,
+            array_keys($files)
+        );
     }
 }
