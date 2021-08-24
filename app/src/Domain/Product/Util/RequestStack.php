@@ -5,6 +5,13 @@ namespace App\Domain\Product\Util;
 
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Request stack to manage request event lifecycle.
+ * While an event is managed, holding the request so
+ * it can be reread later.
+ * Class RequestStack
+ * @package App\Domain\Product\Util
+ */
 class RequestStack
 {
     /**

@@ -17,7 +17,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class ProductListener extends BaseSubscriber
@@ -56,7 +55,6 @@ class ProductListener extends BaseSubscriber
         return [
             KernelEvents::CONTROLLER => 'onControllerRequest',
             Product::class . '_' . Events::CREATE_ONE_POST_PROCESS => 'createOnePostProcess',
-            Product::class . '_' . Events::UPDATE_ONE_POST_PROCESS => 'updateOnePostProcess',
             Product::class . '_' . Events::CREATE_ONE_PRE_PROCESS => 'onPreProcess'
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Axiocode\ApiBundle\Annotation\ExposeRoute;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,7 +15,11 @@ use Axiocode\ApiBundle\Annotation\ExposeResource;
  *     fields={"user", "product"},
  *     message="dupplicate.user.product.rating"
  * )
- * @ExposeResource()
+ * @ExposeResource(
+ *     createOne=@ExposeRoute(name="api_opinion_create", input="comment,rating,product", isGranted="ROLE_USER"),
+ *     updateOne=@ExposeRoute(name="api_opinion_update", input="comment,rating", isGranted="ROLE_USER"),
+ *     deleteOne=@ExposeRoute(name="api_opinion_delete", isGranted="ROLE_USER")
+ * )
  */
 class Opinion
 {
@@ -52,7 +57,7 @@ class Opinion
      * @ORM\ManyToOne(targetEntity=User::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User $user;
 
     public function getId(): ?int
     {

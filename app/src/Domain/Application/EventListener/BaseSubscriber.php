@@ -9,7 +9,6 @@ use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
 
 abstract class BaseSubscriber implements EventSubscriberInterface
 {
-
     protected EventDispatcherInterface $eventDispatcher;
     private string $validationGroup;
 

@@ -12,15 +12,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Domain\Product\Repository\ProductRepository")
  * @ExposeResource(
- *     fetchAll=@ExposeRoute(name="api_products", map={"id", "name", "category"}, input="name,category"),
+ *     fetchAll=@ExposeRoute(name="api_products", map={"id", "name", "category", "AverageOpinionRating", "picture"}, input="name,category"),
  *     fetchOne=@ExposeRoute(
  *           name="api_product",
- *           map={"id", "name", "category", "pictures", "AverageOpinionRating"},
+ *           map={
+ *              "id",
+ *              "name",
+ *              "category",
+ *              "pictures.name",
+ *              "pictures.path",
+ *              "pictures.isMain",
+ *              "AverageOpinionRating",
+ *              "opinions.*"
+ *           },
  *           source="loadOneProductById"
  *     ),
  *     deleteOne=@ExposeRoute(name="api_product_delete", isGranted="ROLE_ADMIN"),
  *     createOne=@ExposeRoute(name="api_product_create", isGranted="ROLE_ADMIN", input="name,category,pictures"),
- *     updateOne=@ExposeRoute(name="api_product_update", isGranted="ROLE_ADMIN", input="name,category,pictures")
+ *     updateOne=@ExposeRoute(name="api_product_update", isGranted="ROLE_ADMIN", input="name,category")
  * )
  */
 class Product

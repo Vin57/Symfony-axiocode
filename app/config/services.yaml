@@ -18,6 +18,7 @@ services:
             $adminPassword: '%app.admin_password%'
             $adminEmail: '%app.admin_email%'
             $_productService: '@App\Domain\Product\Service\ProductService'
+            $_pictureService: '@App\Domain\Product\Service\PictureService'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Axiocode\ApiBundle\Annotation\ExposeResource;
+use Axiocode\ApiBundle\Annotation\ExposeRoute;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -20,7 +22,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     ignoreNull=true
  * )
  * @Vich\Uploadable
- *
+ * @ExposeResource(
+ *   deleteOne=@ExposeRoute(name="api_picture_delete", isGranted="ROLE_ADMIN", map={"id", "name", "product.id"}),
+ *   updateOne=@ExposeRoute(name="api_picture_update", isGranted="ROLE_ADMIN", input="name,is_main", map={"id", "name", "isMain", "product.id"}),
+ * )
  */
 class Picture
 {
