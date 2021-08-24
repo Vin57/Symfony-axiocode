@@ -63,15 +63,18 @@ class ProductListener extends BaseSubscriber
     {
         // Treat request before Api bundle receive it
         $product_name = $event->getRequest()->request->get('name');
+        $apiController = false;
         switch (true) {
             case !empty(array_filter((array)$event->getController(), fn($c) => $c instanceof CreateOneApiController)):
                 $this->requestStack->add($event->getRequest(), $product_name . self::KEY_STACK_CREATE);
+                $apiController = true;
                 break;
             case !empty(array_filter((array)$event->getController(), fn($c) => $c instanceof UpdateOneApiController)):
                 $this->requestStack->add($event->getRequest(), $product_name . self::KEY_STACK_UPDATE);
+                $apiController = true;
                 break;
         }
-        if ($event->getRequest()->getContentType() != 'json') {
+        if ($apiController && $event->getRequest()->getContentType() != 'json') {
             // Then jsonify the request content, as Api Bundle only treat content as json data
             $this->productRequestFormDataParser->parse($event->getRequest());
             $this->requestJsonParser->parseRequestContentToJson($event);
