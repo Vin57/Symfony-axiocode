@@ -5,7 +5,7 @@ namespace App\Domain\Product\EventListener;
 use App\Domain\Application\EventListener\BaseSubscriber;
 use App\Domain\Application\Util\RequestJsonParser;
 use App\Domain\Product\Factory\PictureFactory;
-use App\Domain\Product\Util\ProductRequestFormDataParser;
+use App\Domain\Product\Util\ProductRequestParser;
 use App\Domain\Product\Util\RequestStack;
 use App\Entity\Picture;
 use App\Entity\Product;
@@ -21,33 +21,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ProductListener extends BaseSubscriber
 {
-    const KEY_STACK_CREATE = '_create_';
-    const KEY_STACK_UPDATE = '_update_';
 
-    /**
-     * @var RequestJsonParser
-     */
-    private RequestJsonParser $requestJsonParser;
-    /**
-     * @var ProductRequestFormDataParser
-     */
-    private ProductRequestFormDataParser $productRequestFormDataParser;
-    /**
-     * @var RequestStack
-     */
-    private RequestStack $requestStack;
 
-    public function __construct(
-        EventDispatcherInterface $eventDispatcher,
-        RequestJsonParser $requestJsonParser,
-        ProductRequestFormDataParser $productRequestFormDataParser,
-        RequestStack $requestStack
-    )
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         parent::__construct($eventDispatcher);
-        $this->requestJsonParser = $requestJsonParser;
-        $this->productRequestFormDataParser = $productRequestFormDataParser;
-        $this->requestStack = $requestStack;
     }
 
     public static function getSubscribedEvents(): array

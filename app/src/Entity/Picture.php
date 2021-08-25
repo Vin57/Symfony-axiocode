@@ -23,6 +23,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * )
  * @Vich\Uploadable
  * @ExposeResource(
+ *   createOne=@ExposeRoute(name="api_picture_create", isGranted="ROLE_ADMIN", input="name,product.id"),
  *   deleteOne=@ExposeRoute(name="api_picture_delete", isGranted="ROLE_ADMIN", map={"id", "name", "product.id"}),
  *   updateOne=@ExposeRoute(name="api_picture_update", isGranted="ROLE_ADMIN", input="name,is_main", map={"id", "name", "isMain", "product.id"}),
  * )

@@ -4,7 +4,7 @@ namespace App\Domain\Product\Util;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class ProductRequestFormDataParser
+class ProductRequestParser
 {
     public function parse(Request $request) {
         if ($category_id = intval($request->get('category'))) {
